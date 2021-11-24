@@ -12,7 +12,7 @@ const Home = () => {
 
   // Report config useState hook
   // Values for properties like embedUrl, accessToken and settings will be set on click of buttons below
-  const [sampleReportConfig, setReportConfig] = React.useState({
+  const [sampleReportConfig] = React.useState({
     type: 'report',
     embedUrl: undefined,
     tokenType: models.TokenType.Embed,
