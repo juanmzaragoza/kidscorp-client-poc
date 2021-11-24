@@ -1,7 +1,6 @@
 import React from "react";
 import {
   Router,
-  Redirect,
   Switch
 } from "react-router";
 import { createBrowserHistory } from "history";
@@ -12,8 +11,7 @@ import Home from "components/Public/Home";
 const Routes = () => (
   <Router history={createBrowserHistory()}>
     <Switch>
-      <Redirect from="/" to={PATHNAME.HOME} exact />
-      <Public path={PATHNAME.HOME} component={Home} exact />
+      <Public path={"/"} component={Home} />
     </Switch>
   </Router>
 

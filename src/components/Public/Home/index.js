@@ -23,27 +23,30 @@ const Home = () => {
     settings: undefined,
   });
 
-  React.useEffect(async () => {
-    // Fetch sample report's embed config
-    const reportConfigResponse = await fetch(sampleReportUrl);
+  React.useEffect(() => {
+    const getConfig = async () => {
+      // Fetch sample report's embed config
+      const reportConfigResponse = await fetch(sampleReportUrl);
 
-    if (!reportConfigResponse.ok) {
-      console.error(`Failed to fetch config for report. Status: ${ reportConfigResponse.status } ${ reportConfigResponse.statusText }`);
-      return;
-    }
+      if (!reportConfigResponse.ok) {
+        console.error(`Failed to fetch config for report. Status: ${ reportConfigResponse.status } ${ reportConfigResponse.statusText }`);
+        return;
+      }
 
-    const reportConfig = await reportConfigResponse.json();
+      const reportConfig = await reportConfigResponse.json();
 
-    // Update display message
-    console.log('The access token is successfully set. Loading the Power BI report');
+      // Update display message
+      console.log('The access token is successfully set. Loading the Power BI report');
 
-    // Set the fetched embedUrl and embedToken in the report config
-    setReportConfig({
-      ...sampleReportConfig,
-      embedUrl: reportConfig.EmbedUrl,
-      accessToken: reportConfig.EmbedToken.Token
-    });
-  },[]);
+      // Set the fetched embedUrl and embedToken in the report config
+      setReportConfig({
+        ...sampleReportConfig,
+        embedUrl: reportConfig.EmbedUrl,
+        accessToken: reportConfig.EmbedToken.Token
+      });
+    };
+    getConfig();
+  },[sampleReportConfig]);
 
   return (
     <Container maxWidth={false} sx={{ mt: 4, mb: 4 }}>
