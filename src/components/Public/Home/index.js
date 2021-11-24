@@ -6,19 +6,44 @@ import {
   Grid,
 } from "@mui/material";
 
-import "index.css";
+import "./index.css";
 
 const Home = () => {
 
+  // API end-point url to get embed config for a sample report
+  const sampleReportUrl = 'https://playgroundbe-bck-1.azurewebsites.net/Reports/SampleReport';
+
   // Report config useState hook
   // Values for properties like embedUrl, accessToken and settings will be set on click of buttons below
-  const [sampleReportConfig] = React.useState({
+  const [sampleReportConfig, setReportConfig] = React.useState({
     type: 'report',
     embedUrl: undefined,
     tokenType: models.TokenType.Embed,
     accessToken: undefined,
     settings: undefined,
   });
+
+  React.useEffect(async () => {
+    // Fetch sample report's embed config
+    const reportConfigResponse = await fetch(sampleReportUrl);
+
+    if (!reportConfigResponse.ok) {
+      console.error(`Failed to fetch config for report. Status: ${ reportConfigResponse.status } ${ reportConfigResponse.statusText }`);
+      return;
+    }
+
+    const reportConfig = await reportConfigResponse.json();
+
+    // Update display message
+    console.log('The access token is successfully set. Loading the Power BI report');
+
+    // Set the fetched embedUrl and embedToken in the report config
+    setReportConfig({
+      ...sampleReportConfig,
+      embedUrl: reportConfig.EmbedUrl,
+      accessToken: reportConfig.EmbedToken.Token
+    });
+  },[]);
 
   return (
     <Container maxWidth={false} sx={{ mt: 4, mb: 4 }}>
